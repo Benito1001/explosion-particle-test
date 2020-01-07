@@ -1,7 +1,7 @@
 import Vector from "../vector.js";
 import SlideParticle from "./slideParticle.js";
 import NukeParticle from "./nukeParticle.js";
-import { randomInt, randomFloat } from "../utils.js";
+import { randomFloat } from "../utils.js";
 
 export default class Explosion {
 	constructor(pos, quality, type, radius, friction, fadeRetention, entities) {

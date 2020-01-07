@@ -1,16 +1,16 @@
 import Entity from "./entity.js";
-import Vector from "./vector.js";
 import Rectangle from "./rectangle.js";
 import Explosion from "./explosion/explosion.js";
-import { randomInt, randomFloat } from "./utils.js";
 
 export default class Bomb extends Entity {
 	constructor(x, y) {
 		let boomType = "boom";
 		super(x, y, 100, document.getElementById('tntImg'));
 		this.boomQuality = 1000;
+		this.boomFriction = 0.4;
+		this.boomRetention = 1;
+		this.boomType = "boom";
 		this.repeat = true;
-		this.boomType = boomType;
 		this.boomRad = canvas.height/2;
 		this.particleCount = this.boomQuality;
 		this.particleSize = (this.boomRad*2.2)/Math.sqrt(this.boomQuality);
@@ -18,20 +18,32 @@ export default class Bomb extends Entity {
 		this.boundingBox = new Rectangle(this.pos.x-this.width/2, this.pos.y-this.height/2, this.width, this.height);
 	}
 
-	update(dt, entities) {
+	update(_dt, entities) {
 		if (this.boom) {
 			this.isDead = !this.repeat;
 			this.boom = false;
 			if (this.boomType != "meguNuke") {
-				new Explosion(this.pos, this.boomQuality, this.boomType, this.boomRad, 0.6, 1, entities);
+				new Explosion(this.pos, this.boomQuality, this.boomType, this.boomRad, this.boomFriction, this.boomRetention, entities);
 			} else {
 				this.meguNuke(entities);
 			}
 		}
 	}
 
+	updateBoomOptions(quality, friction, retention, type) {
+		this.boomQuality = quality;
+		this.boomFriction = friction;
+		this.boomRetention = retention;
+		this.boomType = type;
+	}
+
 	draw(ctx) {
 		ctx.drawImage(this.texture, this.pos.x-this.width/2, this.pos.y-this.height/2, this.width, this.height);
+	}
+
+	resize(canvas) {
+		this.pos.set(canvas.width/2, canvas.height/2)
+		this.boundingBox.set(this.pos.x-this.width/2, this.pos.y-this.height/2)
 	}
 
 	meguNuke(entities) {
@@ -51,7 +63,7 @@ export default class Bomb extends Entity {
 		explsionSound.play();
 		setTimeout(function () {
 			explsionSound.pause();
-			new Explosion(this.pos, this.boomQuality, "nuke", this.boomRad, 0.75, 1, entities);
+			new Explosion(this.pos, this.boomQuality, "nuke", this.boomRad, this.boomFriction, this.boomRetention, entities);
 			this.texture = prevTexture;
 			this.width = prevWidth;
 			this.height = prevHeight;
