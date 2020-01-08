@@ -4,7 +4,6 @@ import Explosion from "./explosion/explosion.js";
 
 export default class Bomb extends Entity {
 	constructor(x, y) {
-		let boomType = "boom";
 		super(x, y, 100, document.getElementById('tntImg'));
 		this.boomQuality = 1000;
 		this.boomFriction = 0.4;
@@ -44,6 +43,11 @@ export default class Bomb extends Entity {
 	resize(canvas) {
 		this.pos.set(canvas.width/2, canvas.height/2)
 		this.boundingBox.set(this.pos.x-this.width/2, this.pos.y-this.height/2)
+		if (canvas.height < canvas.width) {
+			this.boomRad = canvas.height/2;
+		} else {
+			this.boomRad = canvas.width/2;
+		}
 	}
 
 	meguNuke(entities) {

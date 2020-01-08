@@ -9,7 +9,7 @@ export default class SlideParticle extends Particle {
 
 	update(dt, entities) {
 		this.pos.vecAdd(this.vel)*dt;
-		this.vel.multiply(this.friction)
+		this.vel.multiply(1-this.friction)
 		this.vel.rotate(randomFloat(-Math.PI/16, Math.PI/16))
 
 		if (this.lifeTime > 30) {

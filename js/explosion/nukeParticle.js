@@ -18,7 +18,7 @@ export default class SlideParticle extends Particle {
 		this.color = this.hexToRgba(this.colorHex, this.opacity);
 		this.fadedColor = this.hexToRgba(this.colorHex, this.opacity-0.5);
 
-		this.vel.multiply(this.friction);
+		this.vel.multiply(1-this.friction);
 		this.rotateVel = this.vel.clone();
 		if (fromMid > this.maxPos/2) {
 			let rotateFactor = (1-((this.maxPos - fromMid)/this.maxPos))*this.toMid*Math.PI*2;

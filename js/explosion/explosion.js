@@ -65,9 +65,8 @@ export default class Explosion {
 	}
 
 	createParticle(type, particlePos, particleVel, entities, toMid) {
-		let minSpeed = 0.1;
-		let maxSpeed = this.radius*(1 - this.particleFriction);
-		particleVel.setLength(randomFloat(minSpeed, maxSpeed));
+		let maxSpeed = this.radius*this.particleFriction;
+		particleVel.setLength(randomFloat(0, maxSpeed));
 		switch (type) {
 			case "slide":
 				entities.push(new SlideParticle(particlePos, particleVel, this.particleSize, this.radius, this.particleFriction, this.particleFadeRetention));

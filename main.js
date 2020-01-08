@@ -27,7 +27,7 @@ function startup() {
 	requestAnimationFrame(mainLoop);
 }
 
-window.addEventListener("input",resize);
+window.addEventListener("resize", resize);
 function resize() {
 	const margin = 4;
 	const border = 2;
